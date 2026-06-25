@@ -1,497 +1,186 @@
-```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Tian Event Planner | Eventos de Lujo</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
+:root{--oro:#D4AF37;--oro-hover:#C5A028;--negro:#1A1A1A;--gris:#555;--fondo:#FBF9F6}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--fondo);color:var(--negro);line-height:1.7}
 
-:root{
-    --oro:#D4AF37;
-    --oro-hover:#C5A028;
-    --negro:#1A1A1A;
-    --gris:#555;
-    --fondo:#FBF9F6;
+/* Menú de Navegación */
+nav{position:fixed;top:0;width:100%;padding:20px 8%;background:rgba(0,0,0,.75);backdrop-filter:blur(10px);z-index:1000;border-bottom:1px solid rgba(212,175,55,0.1)}
+nav ul{display:flex;justify-content:center;gap:40px;list-style:none}
+nav a{color:white;text-decoration:none;font-weight:500;letter-spacing:1px;font-size:0.95rem;transition:.3s}
+nav a:hover{color:var(--oro)}
+
+/* Header / Hero */
+header{height:100vh;background:linear-gradient(rgba(0,0,0,.65),rgba(0,0,0,.75)),url('fondo.png');background-size:cover;background-position:center;display:flex;justify-content:center;align-items:center;text-align:center;color:white;padding:20px}
+.hero{max-width:850px}
+.logo{width:150px;height:150px;border-radius:50%;border:3px solid var(--oro);object-fit:cover;margin-bottom:25px;background:rgba(255,255,255,0.05);padding:3px}
+h1{font-family:'Playfair Display',serif;font-size:4rem;font-weight:400;margin-bottom:15px;letter-spacing:1px}
+.hero p{font-family:'Playfair Display',serif;font-style:italic;font-size:1.5rem;margin-bottom:35px;color:#EAEAEA}
+
+/* Botones */
+.btn{display:inline-block;background:var(--oro);color:white;text-decoration:none;padding:16px 45px;border-radius:4px;font-weight:500;text-transform:uppercase;letter-spacing:1px;font-size:0.9rem;transition:.3s;box-shadow:0 4px 15px rgba(212,175,55,0.2)}
+.btn:hover{background:var(--oro-hover);transform:translateY(-2px)}
+
+/* Secciones */
+section{padding:100px 10%}
+.bg-white{background:#ffffff}
+.titulo{text-align:center;font-size:2.7rem;margin-bottom:45px;font-family:'Playfair Display',serif;font-weight:400}
+.titulo::after{content:'';display:block;width:45px;height:2px;background:var(--oro);margin:12px auto 0 auto}
+.seccion-texto{max-width:800px;margin:auto;text-align:center;color:var(--gris);font-size:1.15rem;font-weight:300}
+
+/* Galería de Imágenes */
+.galeria{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:25px}
+.galeria img{width:100%;height:400px;object-fit:cover;border-radius:4px;transition:.5s;box-shadow:0 5px 15px rgba(0,0,0,0.02)}
+.galeria img:hover{transform:scale(1.04)}
+
+/* NUEVA SECCIÓN: Galería de Videos */
+.video-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:30px;margin-top:20px}
+.video-container{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:6px;box-shadow:0 8px 25px rgba(0,0,0,0.06);background:#000}
+.video-container iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
+
+/* Servicios */
+.servicios{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:25px}
+.card{background:white;padding:45px 25px;text-align:center;border-radius:4px;border:1px solid rgba(212,175,55,0.15);box-shadow:0 5px 20px rgba(0,0,0,.02);transition:.4s}
+.card:hover{transform:translateY(-7px);border-color:var(--oro);box-shadow:0 12px 25px rgba(212,175,55,0.08)}
+.card-icon{font-size:2rem;color:var(--oro);margin-bottom:15px;display:inline-block}
+.card h3{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:400;margin-bottom:12px}
+.card p{color:var(--gris);font-size:0.95rem;font-weight:300}
+
+/* Footer */
+footer{background:var(--negro);color:white;text-align:center;padding:80px 20px}
+footer h3{font-family:'Playfair Display',serif;color:var(--oro);margin-bottom:25px;font-size:2rem;font-weight:400}
+footer p{margin:12px 0;color:#ccc;font-weight:300}
+footer a{color:var(--oro);text-decoration:none;transition:.2s}
+footer a:hover{text-decoration:underline}
+
+/* WhatsApp Flotante */
+.whatsapp{position:fixed;bottom:25px;right:25px;width:60px;height:60px;border-radius:50%;background:#25D366;color:white;text-decoration:none;display:flex;justify-content:center;align-items:center;font-size:30px;z-index:2000;box-shadow:0 4px 15px rgba(0,0,0,0.2);animation:pulse 2s infinite}
+@keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.08)}100%{transform:scale(1)}}
+
+/* Sistema de Animación Corregido */
+.fade-up{opacity:0;transform:translateY(30px);transition:opacity .8s ease,transform .8s ease}
+.fade-up.show{opacity:1;transform:translateY(0)}
+
+@media (max-width: 768px) {
+    nav{padding:15px 4%}
+    nav ul{gap:15px}
+    nav a{font-size:0.8rem}
+    h1{font-size:2.6rem}
+    .hero p{font-size:1.1rem}
+    section{padding:70px 6%}
+    .titulo{font-size:2rem}
 }
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-html{
-    scroll-behavior:smooth;
-}
-
-body{
-    font-family:'Inter',sans-serif;
-    background:var(--fondo);
-    color:var(--negro);
-    line-height:1.7;
-}
-
-/* MENU */
-
-nav{
-    position:fixed;
-    top:0;
-    width:100%;
-    padding:20px 8%;
-    background:rgba(0,0,0,.65);
-    backdrop-filter:blur(10px);
-    z-index:1000;
-}
-
-nav ul{
-    display:flex;
-    justify-content:center;
-    gap:40px;
-    list-style:none;
-}
-
-nav a{
-    color:white;
-    text-decoration:none;
-    font-weight:500;
-}
-
-nav a:hover{
-    color:var(--oro);
-}
-
-/* HERO */
-
-header{
-    height:100vh;
-    background:
-    linear-gradient(rgba(0,0,0,.65),rgba(0,0,0,.75)),
-    url('fondo.jpg');
-    background-size:cover;
-    background-position:center;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
-    color:white;
-    padding:20px;
-}
-
-.hero{
-    max-width:850px;
-}
-
-.logo{
-    width:160px;
-    height:160px;
-    border-radius:50%;
-    border:3px solid var(--oro);
-    object-fit:cover;
-    margin-bottom:25px;
-}
-
-h1{
-    font-family:'Playfair Display',serif;
-    font-size:4rem;
-    font-weight:400;
-    margin-bottom:15px;
-}
-
-.hero p{
-    font-size:1.4rem;
-    margin-bottom:35px;
-}
-
-.btn{
-    display:inline-block;
-    background:var(--oro);
-    color:white;
-    text-decoration:none;
-    padding:16px 40px;
-    border-radius:5px;
-    transition:.3s;
-}
-
-.btn:hover{
-    background:var(--oro-hover);
-}
-
-/* SECCIONES */
-
-section{
-    padding:90px 10%;
-}
-
-.titulo{
-    text-align:center;
-    font-size:2.7rem;
-    margin-bottom:40px;
-    font-family:'Playfair Display',serif;
-}
-
-.seccion-texto{
-    max-width:850px;
-    margin:auto;
-    text-align:center;
-    color:var(--gris);
-}
-
-/* GALERIA */
-
-.galeria{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-    gap:25px;
-}
-
-.galeria img{
-    width:100%;
-    height:400px;
-    object-fit:cover;
-    border-radius:12px;
-    transition:.5s;
-}
-
-.galeria img:hover{
-    transform:scale(1.05);
-}
-
-/* CARDS */
-
-.servicios{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:25px;
-}
-
-.card{
-    background:white;
-    padding:40px 25px;
-    text-align:center;
-    border-radius:12px;
-    box-shadow:0 5px 20px rgba(0,0,0,.08);
-    transition:.3s;
-}
-
-.card:hover{
-    transform:translateY(-10px);
-}
-
-.card span{
-    font-size:2rem;
-}
-
-.card h3{
-    margin:15px 0;
-    font-family:'Playfair Display',serif;
-}
-
-/* ESTADISTICAS */
-
-.estadisticas{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:25px;
-}
-
-.estadisticas .card h2{
-    color:var(--oro);
-    font-size:3rem;
-}
-
-/* FOOTER */
-
-footer{
-    background:#111;
-    color:white;
-    text-align:center;
-    padding:70px 20px;
-}
-
-footer h3{
-    color:var(--oro);
-    margin-bottom:25px;
-    font-size:2rem;
-}
-
-footer a{
-    color:var(--oro);
-    text-decoration:none;
-}
-
-/* WHATSAPP */
-
-.whatsapp{
-    position:fixed;
-    bottom:25px;
-    right:25px;
-    width:65px;
-    height:65px;
-    border-radius:50%;
-    background:#25D366;
-    color:white;
-    text-decoration:none;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:30px;
-    animation:pulse 2s infinite;
-}
-
-@keyframes pulse{
-    0%{transform:scale(1);}
-    50%{transform:scale(1.1);}
-    100%{transform:scale(1);}
-}
-
-/* ANIMACIONES */
-
-.fade-up{
-    opacity:0;
-    transform:translateY(50px);
-    transition:all .8s ease;
-}
-
-.fade-up.show{
-    opacity:1;
-    transform:translateY(0);
-}
-
-/* RESPONSIVE */
-
-@media(max-width:768px){
-
-    h1{
-        font-size:2.5rem;
-    }
-
-    .hero p{
-        font-size:1.1rem;
-    }
-
-    nav ul{
-        gap:15px;
-        font-size:.9rem;
-    }
-
-    section{
-        padding:70px 6%;
-    }
-
-    .galeria img{
-        height:300px;
-    }
-}
-
 </style>
 </head>
-
 <body>
 
 <nav>
-<ul>
-<li><a href="#inicio">Inicio</a></li>
-<li><a href="#nosotros">Nosotros</a></li>
-<li><a href="#galeria">Galería</a></li>
-<li><a href="#servicios">Servicios</a></li>
-<li><a href="#contacto">Contacto</a></li>
-</ul>
+    <ul>
+        <li><a href="#inicio">Inicio</a></li>
+        <li><a href="#nosotros">Nosotros</a></li>
+        <li><a href="#galeria">Montajes</a></li>
+        <li><a href="#videos">Experiencias</a></li>
+        <li><a href="#servicios">Servicios</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+    </ul>
 </nav>
 
 <header id="inicio">
-<div class="hero">
-
-<img src="logo.png" alt="Tian Event Planner" class="logo">
-
-<h1>Tian Event Planner</h1>
-
-<p>Creamos experiencias únicas e inolvidables</p>
-
-<a href="https://wa.me/573196253951" class="btn" target="_blank">
-Solicitar Cotización
-</a>
-
-</div>
+    <div class="hero">
+        <img src="logo.png" alt="Tian Event Planner" class="logo">
+        <h1>Tian Event Planner</h1>
+        <p>Creamos experiencias únicas e inolvidables</p>
+        <a href="https://wa.me/573196253951?text=Hola,%20deseo%20solicitar%20una%20cotizaci%C3%B3n%20para%20un%20evento." class="btn" target="_blank">Solicitar Cotización</a>
+    </div>
 </header>
 
 <section id="nosotros" class="fade-up">
-<h2 class="titulo">Sobre Nosotros</h2>
-
-<p class="seccion-texto">
-Somos especialistas en organización, asesoría y producción de bodas,
-15 años, grados y eventos corporativos en Cali, Florida y Miranda.
-Cada detalle es cuidadosamente diseñado para crear momentos
-memorables y elegantes.
-</p>
+    <h2 class="titulo">Sobre Nosotros</h2>
+    <p class="seccion-texto">Somos especialistas en organización, asesoría y producción de bodas, 15 años, grados y eventos corporativos en Cali, Florida y Miranda. Cuidamos cada detalle para garantizar el éxito de tus celebraciones mas importantes.</p>
 </section>
 
-<section id="galeria" class="fade-up">
-<h2 class="titulo">Nuestros Montajes</h2>
-
-<div class="galeria">
-
-<img src="foto1.jpg">
-<img src="foto2.jpg">
-<img src="foto3.jpg">
-
-</div>
+<section id="galeria" class="bg-white fade-up">
+    <h2 class="titulo">Nuestros Montajes</h2>
+    <div class="galeria">
+        <img src="foto1.png">
+        <img src="foto2.png">
+        <img src="foto3.png">
+    </div>
 </section>
 
-<section id="servicios" class="fade-up">
-<h2 class="titulo">Nuestros Servicios</h2>
-
-<div class="servicios">
-
-<div class="card">
-<span>✨</span>
-<h3>Bodas</h3>
-<p>Planeación y decoración completa.</p>
-</div>
-
-<div class="card">
-<span>👑</span>
-<h3>15 Años</h3>
-<p>Eventos personalizados y memorables.</p>
-</div>
-
-<div class="card">
-<span>🎓</span>
-<h3>Grados</h3>
-<p>Celebraciones elegantes e inolvidables.</p>
-</div>
-
-<div class="card">
-<span>💼</span>
-<h3>Corporativos</h3>
-<p>Producciones empresariales profesionales.</p>
-</div>
-
-</div>
+<!-- NUEVA SECCIÓN DE VIDEOS INTERACTIVOS -->
+<section id="videos" class="fade-up">
+    <h2 class="titulo">Nuestras Experiencias</h2>
+    <p class="seccion-texto" style="margin-bottom: 40px;">Disfruta en video la recopilación de nuestros mejores ambientes y banquetes organizados.</p>
+    <div class="video-grid">
+        <div class="video-container">
+            <!-- Reemplaza el ID de YouTube (dQw4w9WgXcQ) por tus videos de eventos -->
+            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+        </div>
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+        </div>
+    </div>
 </section>
 
-<section class="fade-up">
-<h2 class="titulo">¿Por Qué Elegirnos?</h2>
-
-<div class="servicios">
-
-<div class="card">
-<span>🎨</span>
-<h3>Diseño Exclusivo</h3>
-<p>Eventos únicos para cada cliente.</p>
-</div>
-
-<div class="card">
-<span>⭐</span>
-<h3>Calidad</h3>
-<p>Atención profesional en cada detalle.</p>
-</div>
-
-<div class="card">
-<span>🎉</span>
-<h3>Experiencias</h3>
-<p>Momentos inolvidables para tus invitados.</p>
-</div>
-
-</div>
-</section>
-
-<section class="fade-up">
-<h2 class="titulo">Nuestra Experiencia</h2>
-
-<div class="estadisticas">
-
-<div class="card">
-<h2>500+</h2>
-<p>Eventos realizados</p>
-</div>
-
-<div class="card">
-<h2>300+</h2>
-<p>Clientes satisfechos</p>
-</div>
-
-<div class="card">
-<h2>10+</h2>
-<p>Años de experiencia</p>
-</div>
-
-</div>
-</section>
-
-<section class="fade-up">
-<h2 class="titulo">Testimonios</h2>
-
-<div class="servicios">
-
-<div class="card">
-<p>"Todo quedó espectacular."</p>
-<strong>★★★★★</strong>
-</div>
-
-<div class="card">
-<p>"Excelente atención y organización."</p>
-<strong>★★★★★</strong>
-</div>
-
-<div class="card">
-<p>"Nuestro evento fue inolvidable."</p>
-<strong>★★★★★</strong>
-</div>
-
-</div>
+<section id="servicios" class="bg-white fade-up">
+    <h2 class="titulo">Nuestros Servicios</h2>
+    <div class="servicios">
+        <div class="card">
+            <span class="card-icon">✨</span>
+            <h3>Bodas</h3>
+            <p>Planeación integral, alta decoración floral y coordinación experta para tu día soñado.</p>
+        </div>
+        <div class="card">
+            <span class="card-icon">👑</span>
+            <h3>15 Años</h3>
+            <p>Fiestas temáticas, modernas y personalizadas con iluminación y producción de punta.</p>
+        </div>
+        <div class="card">
+            <span class="card-icon">🎓</span>
+            <h3>Grados</h3>
+            <p>Celebraciones elegantes, banquetes de gala y banquetes con alto protocolo académico.</p>
+        </div>
+        <div class="card">
+            <span class="card-icon">💼</span>
+            <h3>Corporativos</h3>
+            <p>Lanzamientos de marca, conferencias y reuniones ejecutivas con estándar profesional.</p>
+        </div>
+    </div>
 </section>
 
 <footer id="contacto">
-
-<h3>Contáctanos</h3>
-
-<p>📱 319 625 3951</p>
-
-<p>📧 tianplanner8420@gmail.com</p>
-
-<p>
-📸 <a href="https://www.instagram.com/tianeventplanner_/" target="_blank">
-@tianeventplanner_
-</a>
-</p>
-
-<p>
-📸 <a href="https://www.instagram.com/tianplanner/" target="_blank">
-@tianplanner
-</a>
-</p>
-
-<p>📍 Cali - Florida - Miranda</p>
-
-<br>
-
-<p>© 2026 Tian Event Planner. Todos los derechos reservados.</p>
-
+    <h3>Contáctanos</h3>
+    <p>📱 319 625 3951</p>
+    <p>📧 tianplanner8420@gmail.com</p>
+    <p>📍 Cali - Florida - Miranda</p>
+    <p style="margin-top:20px;">
+        <a href="https://www.instagram.com/tianeventplanner_/" target="_blank">@tianeventplanner_</a> | 
+        <a href="https://www.instagram.com/tianplanner/" target="_blank">@tianplanner</a>
+    </p>
 </footer>
 
-<a class="whatsapp" href="https://wa.me/573196253951" target="_blank">
-💬
-</a>
+<a class="whatsapp" href="https://wa.me/573196253951?text=Hola,%20deseo%20solicitar%20una%20cotizaci%C3%B3n%20para%20un%20evento." target="_blank">💬</a>
 
 <script>
-const observer = new IntersectionObserver(entries=>{
-entries.forEach(entry=>{
-if(entry.isIntersecting){
-entry.target.classList.add('show');
-}
-});
-});
+// Animación de entrada segura y fluida
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('show');
+        }
+    });
+}, { threshold: 0.1 }); // Se activa apenas asome el 10% de la sección
 
-document.querySelectorAll('.fade-up').forEach(el=>{
-observer.observe(el);
-});
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 </script>
 
 </body>
 </html>
-```
